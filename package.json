@@ -6,7 +6,7 @@
   },
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node NFLPickEm",
     "devstart": "nodemon ./bin/www"
   },
   "dependencies": {
