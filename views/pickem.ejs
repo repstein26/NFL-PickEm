@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>NFL PickEm'</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <style>
+  .slidecontainer {
+    width: 100%; /* Width of the outside container */
+}
+
+/* The slider itself */
+.slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 25px; /* Specified height */
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 23px;
+    height: 24px;
+    border: 0;
+    background: url('/football.png');
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 23px;
+    height: 25px;
+    border: 0;
+    background: url('/football.png');
+    cursor: pointer;
+}
+
+input.form-fixer {
+    padding: 1px;
+    font-size: 19px;
+}
+  </style>
+ 
+</head>
+<body>
+	<form class="form-inline" action="/results" method="post">
+	<p>
+	<div class="form-group">
+	<table class='table table-dark table-striped'>
+	  <thead>
+		<tr>
+		  <th style='text-align:center; font-size:20px;' width="20%" scope="col">Away Team</th>
+		  <th scope="col" width="60%"></th>
+		  <th style='text-align:center; font-size:20px;' width="20%" scope="col">Home Team</th>
+		</tr>
+	  </thead>
+	  <tbody>
+	  <% for (var i = 1; i < homeTeams.length; i++){%>
+		<tr id="row<%=i%>">
+			<td style='text-align:center; float: right; font-size:20px;' name='awayTeamName<%=i%>' id='awayTeamName<%=i%>'><b><%=awayTeams[i]%></b> &nbsp;&nbsp;&nbsp; <input name="awayProb<%=i%>" id="awayProb<%=i%>" type="text" class="form-control form-fixer" maxlength="3" style='text-align:center; font-weight: bold; width: 55px;' readonly/></td>
+			<td>
+				<div class="slidecontainer">
+				
+					<input type="range" min="0" max="100" value="50" step="5" class="slider" id="probability<%=i%>">
+				
+				</div>
+			</td>
+			
+			<td style='text-align:center; float: left; font-size:20px;' name='homeTeamName<%=i%>' id='homeTeamName<%=i%>'><input name="homeProb<%=i%>" id="homeProb<%=i%>" type="text" class="form-control form-fixer" maxlength="3" style='text-align:center; font-weight: bold; width: 55px;' readonly/>&nbsp;&nbsp;&nbsp; <b><%=homeTeams[i]%></b> </td>
+		</tr>
+	  <% } %>
+	  </div>
+	  </tbody>
+	</table>
+	 <input type="submit" />
+	 </p>
+	</form>
+	<script>
+		var slider = [];
+		var output = [];
+		var homeprob = [];
+		var awayprob = [];
+		var num = <%=homeTeams.length%>;
+		for (var i = 1; i < num; i++){
+			homeprob[i] = document.getElementById("homeProb"+i+"");
+			awayprob[i] = document.getElementById("awayProb"+i+"");
+			
+			slider[i] = document.getElementById("probability"+i+"");
+			homeprob[i].value = slider[i].value;
+			awayprob[i].value = 100-slider[i].value;
+
+			slider[i].oninput = function() {
+				for (var j = 1; j < num; j++){
+					homeprob[j].value = slider[j].value;
+					awayprob[j].value = 100-slider[j].value;
+				}
+			   
+			}
+		}
+		
+	</script>
+</body>
+</html>
