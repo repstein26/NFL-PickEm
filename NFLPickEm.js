@@ -18,6 +18,9 @@ var awayProb = new Array();
 var winners = new Array();
 var numOfGames = 0;
 var app = express();
+// process.env.PORT lets the port be set by Heroku
+var port = process.env.PORT || 8080;
+
 var NFLweek = "";
 var NFLAbbrevs = {
 	'Cardinals': 'ARZ',
@@ -81,7 +84,6 @@ app.get('/week:NFLWeek', function(req, res) {
 
 	rp(options)
 	  .then(($) => {
-			console.log('Week ' + NFLWeek);
 			$('.team-name.away').each(function(i, elem) {
 				awayList[i] = $(this).text();
 			});  
@@ -92,11 +94,6 @@ app.get('/week:NFLWeek', function(req, res) {
 			
 			numOfGames = homeList.length;
 			
-			for (var i = 1; i < numOfGames; i++){
-				console.log(awayList[i] + " at " + homeList[i]);
-			}
-			
-			console.log('\n\n\n');
 			res.render('pickem.ejs', {week: req.params.NFLWeek, awayTeams: awayList, homeTeams: homeList});
 		})
 	  .catch((err) => {
@@ -147,7 +144,7 @@ app.post('/results', function(req, res) {
 
 
 
-app.listen(8080);
+app.listen(port);
 
 function onErr(err) {
     console.log(err);
