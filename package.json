@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "start": "node NFLPickEm",
-    "devstart": "nodemon ./bin/www"
+    "devstart": "nodemon NFLPickEm"
   },
   "dependencies": {
     "async": "^2.6.0",
