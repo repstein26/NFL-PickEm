@@ -72,6 +72,16 @@ app.get('/', function(req, res) {
     res.end('Please browse to http://localhost:8080/weekX/ where X is the NFL Week number \n(i.e. http://localhost:8080/week1/)');
 });
 
+app.get('/week', function(req, res) {
+	res.render('pickemMain.ejs', {});
+});
+
+app.post('/weekpicker', function(req, res){
+	var weeknum = req.body.week;
+	weeknum = weeknum.replace('Week ','');
+	res.redirect('/week'+weeknum);
+});
+
 app.get('/week:NFLWeek', function(req, res) {
 	NFLWeek = req.params.NFLWeek;
 	

@@ -54,11 +54,15 @@ input.form-fixer {
     padding: 1px;
     font-size: 19px;
 }
+
+.bgimg {
+    background-image: url('/field.jpg');
+}
   </style>
  
 </head>
 <body>
-<div style="background-color:black">
+<div class="bgimg">
 	<form class="form-inline justify-content-center" action="/results" method="post">
 	<p>
 	<div class="form-group" style="text-align:center;">
@@ -83,12 +87,18 @@ input.form-fixer {
 			<td style='text-align:center; font-size:20px;' name='homeTeamName<%=i%>' id='homeTeamName<%=i%>'><b><%=homeTeams[i]%></b> <br><input name="homeProb<%=i%>" id="homeProb<%=i%>" type="text" class="form-control form-fixer" maxlength="3" style='text-align:center; font-weight: bold; width: 55px;' readonly/></td>
 		</tr>
 	  <% } %>
-	 
+	 <tr>
+		<td></td>
+		<td>
+			<div style="width:100%; text-align:center;">
+			   <input type="submit" class="btn btn-success" value="Generate Winning Tickets"/><br>
+			</div>
+		</td>
+		<td></td>
+	 </tr>
 	  </tbody>
 	</table>
-	<div style="width:100%; text-align:center;">
-	<input type="submit" class="btn btn-success" value="Generate Winning Tickets"/>
-	</div>
+	
 	</div>
 	 </p>
 	</form>
