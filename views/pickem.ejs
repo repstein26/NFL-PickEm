@@ -49,23 +49,6 @@
     cursor: pointer;
 }
 
-.sliderticks {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 10px;
-}
-
-.sliderticks p {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  width: 1px;
-  background: #D3D3D3;
-  height: 10px;
-  line-height: 30px;
-  margin: 0 0 0 0;
-}
 
 input.form-fixer {
     padding: 1px;
@@ -93,22 +76,7 @@ input.form-fixer {
 			<td style='text-align:center; font-size:20px;' name='awayTeamName<%=i%>' id='awayTeamName<%=i%>'><b><%=awayTeams[i]%></b> <br> <input name="awayProb<%=i%>" id="awayProb<%=i%>" type="text" class="form-control form-fixer" maxlength="3" style='text-align:center; font-weight: bold; width: 55px;' readonly/></td>
 			<td style='vertical-align:middle;'>
 				<div>
-				
 					<input type="range" min="0" max="100" value="50" step="5" class="slider" id="probability<%=i%>">
-					<div class="sliderticks">
-						<p></p>
-						<p></p>
-						<p></p>
-						<p></p>
-						<p></p>
-						<p></p>
-						<p></p>
-						<p></p>
-						<p></p>
-						<p></p>
-						<p></p>
-					  </div>
-				
 				</div>
 			</td>
 			
