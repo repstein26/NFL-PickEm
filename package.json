@@ -1,13 +1,13 @@
 {
-  "name": "NFL-PickEm",
+  "name": "repsteindev",
   "version": "0.0.0",
   "engines": {
     "node": "10.8.0"
   },
   "private": true,
   "scripts": {
-    "start": "node NFLPickEm",
-    "devstart": "nodemon NFLPickEm"
+    "start": "node repsteinDEV",
+    "devstart": "nodemon repsteinDEV"
   },
   "dependencies": {
     "async": "^2.6.0",
@@ -35,5 +35,17 @@
   },
   "devDependencies": {
     "nodemon": "^1.18.3"
-  }
+  },
+  "description": "web application using NodeJS and express",
+  "main": "repsteinDEV.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/repstein26/repsteinDEV.git"
+  },
+  "author": "Russell Epstein",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/repstein26/repsteinDEV/issues"
+  },
+  "homepage": "https://github.com/repstein26/repsteinDEV#readme"
 }
