@@ -136,7 +136,7 @@ app.post('/results', function(req, res) {
 		}
 		var index = a+2;
 		if (index < numOfTickets+1){
-			winningTeamStringBuilder = winningTeamStringBuilder + "]\r\n\r\n" + index + " [";
+			winningTeamStringBuilder = winningTeamStringBuilder + " ]\r\n\r\n" + index + " [";
 		} else {
 			winningTeamStringBuilder = winningTeamStringBuilder + "]\r\n";
 		}
