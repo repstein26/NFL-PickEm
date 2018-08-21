@@ -49,6 +49,24 @@
     cursor: pointer;
 }
 
+.sliderticks {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.sliderticks p {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 1px;
+  background: #D3D3D3;
+  height: 10px;
+  line-height: 40px;
+  margin: 0 0 20px 0;
+}
+
 input.form-fixer {
     padding: 1px;
     font-size: 19px;
@@ -77,6 +95,19 @@ input.form-fixer {
 				<div>
 				
 					<input type="range" min="0" max="100" value="50" step="5" class="slider" id="probability<%=i%>">
+					<div class="sliderticks">
+						<p>0</p>
+						<p>10</p>
+						<p>20</p>
+						<p>30</p>
+						<p>40</p>
+						<p>50</p>
+						<p>60</p>
+						<p>70</p>
+						<p>80</p>
+						<p>90</p>
+						<p>100</p>
+					  </div>
 				
 				</div>
 			</td>
