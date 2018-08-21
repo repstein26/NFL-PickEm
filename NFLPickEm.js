@@ -94,6 +94,15 @@ app.get('/week:NFLWeek', function(req, res) {
 			
 			numOfGames = homeList.length;
 			
+			for (var key in NFLAbbrevs){
+				var re = new RegExp(key, 'gi');
+				for (var i = 0; i < numOfGames; i++){
+					homeList[i] = homeList[i].replace(re, NFLAbbrevs[key]); 
+					awayList[i] = awayList[i].replace(re, NFLAbbrevs[key]); 
+				}
+			}
+			
+			
 			res.render('pickem.ejs', {week: req.params.NFLWeek, awayTeams: awayList, homeTeams: homeList});
 		})
 	  .catch((err) => {
@@ -128,10 +137,6 @@ app.post('/results', function(req, res) {
 		winningTeamStringBuilder = winningTeamStringBuilder + "\r\n";
 	}
 	
-	for (var key in NFLAbbrevs){
-			var re = new RegExp(key, 'gi');
-			winningTeamStringBuilder = winningTeamStringBuilder.replace(re, NFLAbbrevs[key]); 
-	}
 	
 	res.setHeader('Content-disposition', 'attachment; filename=winningTickets.txt');
 	res.set('Content-Type', 'text/plain');

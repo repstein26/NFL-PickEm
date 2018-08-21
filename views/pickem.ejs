@@ -71,16 +71,16 @@ input.form-fixer {
 	  <tbody>
 	  <% for (var i = 1; i < homeTeams.length; i++){%>
 		<tr id="row<%=i%>">
-			<td style='text-align:center; float: right; font-size:20px;' name='awayTeamName<%=i%>' id='awayTeamName<%=i%>'><b><%=awayTeams[i]%></b> &nbsp;&nbsp;&nbsp; <input name="awayProb<%=i%>" id="awayProb<%=i%>" type="text" class="form-control form-fixer" maxlength="3" style='text-align:center; font-weight: bold; width: 55px;' readonly/></td>
-			<td>
-				<div class="slidecontainer">
+			<td style='text-align:center; font-size:20px;' name='awayTeamName<%=i%>' id='awayTeamName<%=i%>'><b><%=awayTeams[i]%></b> <br> <input name="awayProb<%=i%>" id="awayProb<%=i%>" type="text" class="form-control form-fixer" maxlength="3" style='text-align:center; font-weight: bold; width: 55px;' readonly/></td>
+			<td style='vertical-align:middle;'>
+				<div>
 				
 					<input type="range" min="0" max="100" value="50" step="5" class="slider" id="probability<%=i%>">
 				
 				</div>
 			</td>
 			
-			<td style='text-align:center; float: left; font-size:20px;' name='homeTeamName<%=i%>' id='homeTeamName<%=i%>'><input name="homeProb<%=i%>" id="homeProb<%=i%>" type="text" class="form-control form-fixer" maxlength="3" style='text-align:center; font-weight: bold; width: 55px;' readonly/>&nbsp;&nbsp;&nbsp; <b><%=homeTeams[i]%></b> </td>
+			<td style='text-align:center; font-size:20px;' name='homeTeamName<%=i%>' id='homeTeamName<%=i%>'><b><%=homeTeams[i]%></b> <br><input name="homeProb<%=i%>" id="homeProb<%=i%>" type="text" class="form-control form-fixer" maxlength="3" style='text-align:center; font-weight: bold; width: 55px;' readonly/></td>
 		</tr>
 	  <% } %>
 	  </div>
