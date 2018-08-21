@@ -119,8 +119,8 @@ app.post('/results', function(req, res) {
 	var awayProbability;
 	var filename;
 	var winningTeamStringBuilder = "";
-	
-	for (var a = 0; a < 50; a++){
+	var numOfTickets = 50;
+	for (var a = 0; a < numOfTickets; a++){
 		for (var i = 1; i < numOfGames; i++){
 			homeProbability = "homeProb"+i;
 			awayProbability = "awayProb"+i;
@@ -134,16 +134,21 @@ app.post('/results', function(req, res) {
 			}
 			winningTeamStringBuilder = winningTeamStringBuilder + " " + winners[i];
 		}
-		winningTeamStringBuilder = winningTeamStringBuilder + "\r\n";
-	}
-	
+		var index = a+2;
+		if (index < numOfTickets+1){
+			winningTeamStringBuilder = winningTeamStringBuilder + "]\r\n\r\n" + index + " [";
+		} else {
+			winningTeamStringBuilder = winningTeamStringBuilder + "]\r\n";
+		}
+		
+	} 
+	winningTeamStringBuilder = "1 [" + winningTeamStringBuilder;
 	
 	res.setHeader('Content-disposition', 'attachment; filename=winningTickets.txt');
 	res.set('Content-Type', 'text/plain');
 	res.status(200).send(winningTeamStringBuilder);
 	winningTeamStringBuilder = "";
 	res.end("");
-    //res.redirect('/week' + NFLWeek);
 });
 
 
