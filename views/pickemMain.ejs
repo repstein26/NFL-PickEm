@@ -12,29 +12,133 @@
   .button-wrapper .btn {
     margin-bottom:25px;
 	}
+	
+	tr td
+{
+    background-color: #fff;
+	height:100px;
+    text-align: center;
+    margin:0;
+    padding:0;
+}
+
+
+tr:nth-child(even) td:nth-child(odd), 
+tr:nth-child(odd) td:nth-child(even)
+{
+    background-color: #ccc;
+}
+
+input {
+    margin:0;
+    padding:0;
+    height:100%;
+    width:100%;
+}
+
+.btn-checker0 {
+	background-color: #fff;
+	font-family:helvetica;
+	font-weight:bold;
+}
+
+.btn-checker1 {
+	background-color: #ccc;
+	font-family:helvetica;
+	font-weight:bold;
+}
+
+.field {
+   background-image: url('/field.jpg');
+   no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
   </style>
 </head>
-<body>
-<form action="/weekpicker" method="post">
+<body class="field">
+<div style="text-align:center; font-weight:bold; color:white; font-size:20px;">
+Welcome to the NFL PickEm' Web App!<br>dkldfsjklsdfdfjklfsdjsdfjklfjkl<br><br>
+</div>
+<form class="form-inline justify-content-center" action="/weekpicker" method="post">
 <div class="btn-group-vertical button-wrapper" role="group">
-  <input type="submit" class="btn btn-success" name="week" id="week1" value="Week 1"/>
-  <input type="submit" class="btn btn-success" name="week" id="week2" value="Week 2"/>
-  <input type="submit" class="btn btn-success" name="week" id="week3" value="Week 3"/>
-  <input type="submit" class="btn btn-success" name="week" id="week4" value="Week 4"/>
-  <input type="submit" class="btn btn-success" name="week" id="week5" value="Week 5"/>
-  <input type="submit" class="btn btn-success" name="week" id="week6" value="Week 6"/>
-  <input type="submit" class="btn btn-success" name="week" id="week7" value="Week 7"/>
-  <input type="submit" class="btn btn-success" name="week" id="week8" value="Week 8"/>
-  <input type="submit" class="btn btn-success" name="week" id="week9" value="Week 9"/>
-  <input type="submit" class="btn btn-success" name="week" id="week10" value="Week 10"/>
-  <input type="submit" class="btn btn-success" name="week" id="week11" value="Week 11"/>
-  <input type="submit" class="btn btn-success" name="week" id="week12" value="Week 12"/>
-  <input type="submit" class="btn btn-success" name="week" id="week13" value="Week 13"/>
-  <input type="submit" class="btn btn-success" name="week" id="week14" value="Week 14"/>
-  <input type="submit" class="btn btn-success" name="week" id="week15" value="Week 15"/>
-  <input type="submit" class="btn btn-success" name="week" id="week16" value="Week 16"/>
-  <input type="submit" class="btn btn-success" name="week" id="week17" value="Week 17"/>
+
+
+
+<table style="opacity:0.8;">
+  <thead>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td> 
+		<input type="submit" class="btn btn-checker0" name="week" id="week1" value="Week 1"/>
+	</td>
+      <td>
+		<input type="submit" class="btn btn-checker1" name="week" id="week2" value="Week 2"/>
+	</td>
+      <td><input type="submit" class="btn btn-checker0" name="week" id="week3" value="Week 3"/></td>
+    </tr>
+    <tr>
+      <td>
+		<input type="submit" class="btn btn-checker1" name="week" id="week4" value="Week 4"/>
+	</td>
+      <td><input type="submit" class="btn btn-checker0" name="week" id="week5" value="Week 5"/>
+	</td>
+      <td>
+	  <input type="submit" class="btn btn-checker1" name="week" id="week6" value="Week 6"/>
+	</td>
+    </tr>
+    <tr>
+      <td>
+		<input type="submit" class="btn btn-checker0" name="week" id="week7" value="Week 7"/>
+	  </td>
+      <td><input type="submit" class="btn btn-checker1" name="week" id="week8" value="Week 8"/>
+	</td>
+      <td>
+		<input type="submit" class="btn btn-checker0" name="week" id="week9" value="Week 9"/>
+	</td>
+    </tr>
+	<tr>
+      <td> 
+		<input type="submit" class="btn btn-checker1" name="week" id="week10" value="Week 10"/>
+	</td>
+      <td><input type="submit" class="btn btn-checker0" name="week" id="week11" value="Week 11"/>
+	</td>
+      <td><input type="submit" class="btn btn-checker1" name="week" id="week12" value="Week 12"/></td>
+    </tr>
+    <tr>
+      <td>
+		<input type="submit" class="btn btn-checker0" name="week" id="week13" value="Week 13"/>
+	</td>
+      <td><input type="submit" class="btn btn-checker1" name="week" id="week14" value="Week 14"/>
+	</td>
+      <td>
+	  <input type="submit" class="btn btn-checker0" name="week" id="week15" value="Week 15"/>
+	</td>
+    </tr>
+    <tr>
+      <td>
+		<input type="submit" class="btn btn-checker1" name="week" id="week16" value="Week 16"/>
+	  </td>
+      <td class="btn-checker0"></td>
+      <td>
+		<input type="submit" class="btn btn-checker1" name="week" id="week17" value="Week 17"/>
+	</td>
+    </tr>
+	
+  </tbody>
+</table>
 </div>
 </form>
+<div style="text-align:center; font-weight:bold; color:black; font-size:20px;">
+Welcome to the NFL PickEm' Web App!<br>dkldfsjklsdfdfjklfsdjsdfjklfjkl<br><br>
+</div>
 </body>
 </html>
