@@ -145,7 +145,7 @@ app.post('/selection/results', function(req, res) {
 	homeList = req.body.homeList.split(",");
 	
 	for (var a = 0; a < numOfTickets; a++){
-		for (var i = 1; i < numOfGames; i++){
+		for (var i = 0; i < numOfGames; i++){
 			homeProbability = "homeProb"+i;
 			awayProbability = "awayProb"+i;
 			homeProb[i] = req.body[homeProbability];
