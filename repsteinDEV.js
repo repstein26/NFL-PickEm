@@ -9,6 +9,9 @@ var fs = require('fs');
 var path = require('path');
 var compression = require('compression');
 var helmet = require('helmet');
+var mongoose = require('mongoose');
+var Ticket = require('./models/ticket');
+var selection = require('./routes/selection');
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var awayList = new Array();
@@ -18,8 +21,25 @@ var awayProb = new Array();
 var winners = new Array();
 var numOfGames = 0;
 var app = express();
+app.use(helmet());
 // process.env.PORT lets the port be set by Heroku
 var port = process.env.PORT || 8080;
+
+
+
+//Set up default mongoose connection
+var dev_db_url = 'mongodb://repsteindev:Sodapop726@ds129762.mlab.com:29762/nfl_pickem';
+var mongoDB = process.env.MONGODB_URI || dev_db_url;
+mongoose.connect(mongoDB);
+// Get Mongoose to use the global promise library
+mongoose.Promise = global.Promise;
+//Get the default connection
+var db = mongoose.connection;
+
+//Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+
 
 var NFLweek = "";
 var NFLAbbrevs = {
@@ -63,13 +83,28 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 })); 
 app.use(compression()); //Compress all routes
-app.use(helmet());
-app.use(express.static(__dirname + '/views/img/'));
 
+
+app.use('/selection', selection);
+
+//app.use(express.static(__dirname + '/views/img/'));
+app.use(express.static('public'));
 
 app.get('/', function(req, res) {
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Please browse to http://localhost:8080/weekX/ where X is the NFL Week number \n(i.e. http://localhost:8080/week1/)');
+   // res.setHeader('Content-Type', 'text/plain');
+   // res.end('Please browse to http://localhost:8080/weekX/ where X is the NFL Week number \n(i.e. http://localhost:8080/week1/)');
+   res.render('index.ejs', {});
+});
+
+//temporary to be removed
+app.get('/ticket_list', function(req, res) {
+	var myJSON = JSON.stringify(NFLAbbrevs);
+	res.render('ticket_list.ejs', {ticketlist: myJSON, test: "test"} );
+});
+
+
+app.get('/selection', function(req, res) {
+	res.render('selection.ejs', {});
 });
 
 app.get('/week', function(req, res) {
@@ -79,57 +114,36 @@ app.get('/week', function(req, res) {
 app.post('/weekpicker', function(req, res){
 	var weeknum = req.body.week;
 	weeknum = weeknum.replace('Week ','');
-	res.redirect('/week'+weeknum);
+	res.redirect('/selection?week='+weeknum);
 });
 
-app.get('/week:NFLWeek', function(req, res) {
+app.get('/selection/week:NFLWeek', function(req, res) {
 	NFLWeek = req.params.NFLWeek;
-	
-	const options = {
-	  uri: `http://www.nfl.com/schedules/2018/REG` + NFLWeek + ``,
-	  transform: function (body) {
-		return cheerio.load(body);
-	  }
-	};
-
-	rp(options)
-	  .then(($) => {
-			$('.team-name.away').each(function(i, elem) {
-				awayList[i] = $(this).text();
-			});  
-			
-			$('.team-name.home').each(function(i, elem) {
-				homeList[i] = $(this).text();
-			});  
-			
-			numOfGames = homeList.length;
-			
-			for (var key in NFLAbbrevs){
-				var re = new RegExp(key, 'gi');
-				for (var i = 0; i < numOfGames; i++){
-					homeList[i] = homeList[i].replace(re, NFLAbbrevs[key]); 
-					awayList[i] = awayList[i].replace(re, NFLAbbrevs[key]); 
-				}
-			}
-			
-			
-			res.render('pickem.ejs', {week: req.params.NFLWeek, awayTeams: awayList, homeTeams: homeList});
-		})
-	  .catch((err) => {
-		console.log(err);
-	  });
-	  
-    
+	res.redirect(307, '/selection/matchup?week='+NFLWeek+'');
 });
 
+app.post('/selection/deleteticket', function(req, res) {
+	res.redirect(307, '/selection/ticket/'+req.body.ticketid+'/delete?week='+req.body.week);
+	
+});
 
-app.post('/results', function(req, res) {
-	numOfGames = homeList.length;
+app.post('/selection/deleteall', function(req, res) {
+	res.redirect(307, '/selection/ticket/deleteall?week='+req.body.week);
+	
+});
+
+app.post('/selection/results', function(req, res) {
+	numOfGames = req.body.numOfGames;
     var homeProbability;
 	var awayProbability;
-	var filename;
 	var winningTeamStringBuilder = "";
-	var numOfTickets = 50;
+	var numOfTickets = req.body.numOfTix;
+	var week = req.body.week;
+	var arrayOfTickets = new Array();
+	
+	awayList = req.body.awayList.split(",");
+	homeList = req.body.homeList.split(",");
+	
 	for (var a = 0; a < numOfTickets; a++){
 		for (var i = 1; i < numOfGames; i++){
 			homeProbability = "homeProb"+i;
@@ -144,21 +158,28 @@ app.post('/results', function(req, res) {
 			}
 			winningTeamStringBuilder = winningTeamStringBuilder + " " + winners[i];
 		}
-		var index = a+2;
-		if (index < numOfTickets+1){
-			winningTeamStringBuilder = winningTeamStringBuilder + " ]\r\n\r\n" + index + " [";
+		if ( !( winningTeamStringBuilder in arrayOfTickets ) ) {
+			arrayOfTickets[a] = winningTeamStringBuilder;
+			var t = new Ticket({
+				tickets: winningTeamStringBuilder,
+				week: week
+			});
+			winningTeamStringBuilder = "";
+			t.save(function(err) {
+			if (err)
+			   throw err;
+			});
+		
 		} else {
-			winningTeamStringBuilder = winningTeamStringBuilder + "]\r\n";
+			console.log("Duplicate ticket stopped from being added");
 		}
 		
+		
 	} 
-	winningTeamStringBuilder = "1 [" + winningTeamStringBuilder;
+	setTimeout(function (){
+		res.redirect('/selection/tickets?week='+week);
+	}, 1000);
 	
-	res.setHeader('Content-disposition', 'attachment; filename=winningTickets.txt');
-	res.set('Content-Type', 'text/plain');
-	res.status(200).send(winningTeamStringBuilder);
-	winningTeamStringBuilder = "";
-	res.end("");
 });
 
 
@@ -174,3 +195,5 @@ function onErr(err) {
 function generateRand(){
 	return Math.floor((Math.random()* 100) + 1);
 }	
+
+module.exports = app;

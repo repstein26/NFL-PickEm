@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>NFL PickEm'</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+ <style>
+ .field {
+   background-image: url('/img/field.jpg');
+   no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+    background-size: auto;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: Helvetica, arial, sans-serif;
+  background-color: #000;
+  height: 100%;
+  background: linear-gradient(to bottom, #020111 10%, #3a3a52 100%);
+}
+
+.accordion {
+  max-width: 500px;
+  margin: 0 auto;
+}
+.accordion__title {
+  font-family: 'industry', sans-serif;
+  font-weight: 300;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 1.125em;
+}
+.accordion__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.accordion__item {
+  border-bottom: 1px solid #000;
+  visibility: hidden;
+}
+.accordion__item:last-child {
+  border-bottom: 0;
+}
+.accordion__item.is-active .accordion__itemTitleWrap::after {
+  -webkit-transform: translateX(-20%);
+          transform: translateX(-20%);
+}
+.accordion__item.is-active .accordion__itemIconWrap {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+.accordion__itemTitleWrap {
+  display: flex;
+  height: 2.5em;
+  align-items: center;
+  padding: 0 1em;
+  color: #fff;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.accordion__itemTitleWrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: #3bade3;
+  background: linear-gradient(45deg, #3bade3 0%, #576fe6 25%, #9844b7 51%, #ff357f 100%);
+  z-index: 1;
+  transition: -webkit-transform .4s ease;
+  transition: transform .4s ease;
+  transition: transform .4s ease, -webkit-transform .4s ease;
+}
+.accordion__itemTitleWrap.is-active::after, .accordion__itemTitleWrap:hover::after {
+  -webkit-transform: translateX(-20%);
+          transform: translateX(-20%);
+}
+.accordion__itemIconWrap {
+  width: 1.25em;
+  height: 1.25em;
+  margin-left: auto;
+  position: relative;
+  z-index: 10;
+}
+.accordion__itemTitle {
+  margin: 0;
+  font-family: 'industry', sans-serif;
+  font-weight: 300;
+  font-size: 1em;
+  position: relative;
+  z-index: 10;
+}
+.accordion__itemContent {
+  font-size: 0.875em;
+  height: 0;
+  overflow: hidden;
+  background-color: #fff;
+  padding: 0 1.25em;
+}
+.accordion__itemContent p {
+  margin: 2em 0;
+}
+
+
+ </style>
+</head>
+<body class="field">
+<div id="titlediv" style="text-align:center; font-weight:bold; color:white; font-size:20px;">
+
+</div>
+<div id="list" style="text-align:center;">
+<% if (ticket_list.length < 1){ %>
+	<div style="text-align:center;"><span id="notixdiv" style="text-align:center; font-weight:bold; color:white; font-size:20px;">No available tickets</span>
+	</div>
+<% } else{ %>
+<div id="notixdiv"></div>
+<div class="accordion"> 
+  <ul class="accordion__list">
+ <% for (var i = 0; i < ticket_list.length; i++){ %>
+    <li class="accordion__item">
+      <div class="accordion__itemTitleWrap">
+        <h3 class="accordion__itemTitle">Ticket <%=i+1%></h3>
+        <div class="accordion__itemIconWrap"><svg viewBox="0 0 24 24"><polyline fill="none" points="21,8.5 12,17.5 3,8.5 " stroke="#FFF" stroke-miterlimit="10" stroke-width="2"/></svg></div>
+      </div>
+      <div class="accordion__itemContent" style="opacity:0.85;">
+	 <form class="form-inline justify-content-center" action="/selection/deleteticket" method="post">
+		<table class='table table-striped'>
+	  <%
+		var tickets = ticket_list[i].toString().split(",");
+		var id = tickets[0].substring(6).trim();
+		var teams = tickets[1].substring(17, tickets[1].length-1).trim().split(/  | /);
+		for (var a = 0; a < teams.length; a++){	 %>
+			<tr>
+				<td><b> <%=teams[a]%> </b></td>
+				<% if (teams[a+1] != null){%>
+					<td><b> <%=teams[a+1]%> </b></td>
+			<%	a = a + 1;
+				} else { %>
+					<td></td>
+			<%	} %>
+			</tr>
+		<%}%>
+		</table>
+		<table class='table table-striped'>
+			<tr>
+				<td style="text-align:center;">
+					<input id="submitbtn" type="submit" class="btn btn-danger" value="DELETE TICKET"/>
+				</td>
+			</tr>
+			<tr style="display:none;">
+				<td><input type="hidden" id="ticketid<%=i%>" name="ticketid" value="<%=id%>"/> 
+					<input type="hidden" id="week<%=i%>" name ="week" value=""/></td>
+			</tr>
+			
+		</table>
+		</form>
+	   </div>
+    </li>
+ <% } %>
+    
+  </ul>
+</div>
+<% } %>
+<br>
+<div id = "deleteallform">
+<form class="form-inline justify-content-center" action="/selection/deleteall" method="post">
+<input id="submitbtn" type="submit" class="btn btn-danger" value="DELETE ALL TICKETS"/>
+<input type="hidden" id="weekall" name ="week" value=""/></td>
+</form>
+<br><br>
+</div>
+</div>	
+
+
+</body>
+<script>
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+var week = getParameterByName('week');
+if (week != null){
+	document.getElementById("titlediv").innerHTML = "Week " + week + " Tickets<br><br>";
+	if (<%=ticket_list.length%> < 1){
+		document.getElementById("notixdiv").innerHTML = "No tickets have been saved for week " + week + " yet. Click button to select picks.<br><br><a name='selectpicks' id='selectpicks'><span class='btn btn-info'>WEEK " +week+" PICKS</span></a>";
+		document.getElementById("selectpicks").href= "/selection/week"+week+"/";
+		document.getElementById("deleteallform").style.display = "none";
+	} else {
+		//to do fix this
+		for (var i = 0; i < <%=ticket_list.length%>; i++){
+			document.getElementById("week" + i).value = week;
+		}
+		document.getElementById("weekall").value = week;
+		
+	}
+}
+
+var Accordion = function() {
+  
+  var
+    toggleItems,
+    items;
+  
+  var _init = function() {
+    toggleItems     = document.querySelectorAll('.accordion__itemTitleWrap');
+    toggleItems     = Array.prototype.slice.call(toggleItems);
+    items           = document.querySelectorAll('.accordion__item');
+    items           = Array.prototype.slice.call(items);
+    
+    _addEventHandlers();
+    TweenLite.set(items, {visibility:'visible'});
+ //   TweenMax.staggerFrom(items, 0.9,{opacity:0, x:-100, ease:Power2.easeOut}, 0.3)
+  }
+  
+  var _addEventHandlers = function() {
+    toggleItems.forEach(function(element, index) {
+      element.addEventListener('click', _toggleItem, false);
+    });
+  }
+  
+  var _toggleItem = function() {
+    var parent = this.parentNode;
+    var content = parent.children[1];
+    if(!parent.classList.contains('is-active')) {
+      parent.classList.add('is-active');
+      TweenLite.set(content, {height:'auto'})
+      TweenLite.from(content, 0.6, {height: 0, immediateRender:false, ease: Back.easeOut})
+      
+    } else {
+      parent.classList.remove('is-active');
+      TweenLite.to(content, 0.3, {height: 0, immediateRender:false, ease: Power1.easeOut})
+    }
+  }
+  
+  return {
+    init: _init
+  }
+  
+}();
+
+Accordion.init();
+</script>
+
+</html>

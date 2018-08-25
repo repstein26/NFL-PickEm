@@ -37,7 +37,7 @@
     width: 23px;
     height: 24px;
     border: 0;
-    background: url('/football.png');
+    background: url('/img/football.png');
     cursor: pointer;
 }
 
@@ -45,7 +45,7 @@
     width: 23px;
     height: 25px;
     border: 0;
-    background: url('/football.png');
+    background: url('/img/football.png');
     cursor: pointer;
 }
 
@@ -60,9 +60,20 @@ input.form-fixer {
 </head>
 <body>
 <div style="background-color:black;">
-	<form class="form-inline justify-content-center" action="/results" method="post">
+	<form class="form-inline justify-content-center" action="/selection/results" method="post">
 	<p>
 	<div class="form-group" style="text-align:center;">
+	<% 
+		var list_matchups = matchuplist[0].toString().split(":");
+		var awayTeamsString = list_matchups[2].substring(5,list_matchups[2].length-13);
+		var homeTeamsString =  list_matchups[3].substring(5,list_matchups[3].length-15);
+		
+		var awayTeams = awayTeamsString.split(",");
+		var homeTeams = homeTeamsString.split(",");
+		var numOfGames = list_matchups[4].substring(2, list_matchups[4].length-9).trim();
+	%>
+	<input style="display:none;" id="homeList" name="homeList" value="<%=homeTeams%>"/>
+	<input style="display:none;" id="awayList" name="awayList" value="<%=awayTeams%>"/>
 	<table class='table table-dark table-striped'>
 	  <thead>
 		<tr>
@@ -72,7 +83,7 @@ input.form-fixer {
 		</tr>
 	  </thead>
 	  <tbody>
-	  <% for (var i = 1; i < homeTeams.length; i++){%>
+	  <% for (var i = 0; i < numOfGames; i++){%>
 		<tr id="row<%=i%>">
 			<td style='text-align:center; font-size:20px;' name='awayTeamName<%=i%>' id='awayTeamName<%=i%>'><b><%=awayTeams[i]%></b> <br> <input name="awayProb<%=i%>" id="awayProb<%=i%>" type="text" class="form-control form-fixer" maxlength="3" style='text-align:center; font-weight: bold; width: 55px;' readonly/></td>
 			<td style='vertical-align:middle;'>
@@ -84,11 +95,21 @@ input.form-fixer {
 			<td style='text-align:center; font-size:20px;' name='homeTeamName<%=i%>' id='homeTeamName<%=i%>'><b><%=homeTeams[i]%></b> <br><input name="homeProb<%=i%>" id="homeProb<%=i%>" type="text" class="form-control form-fixer" maxlength="3" style='text-align:center; font-weight: bold; width: 55px;' readonly/></td>
 		</tr>
 	  <% } %>
+	  <tr>
+		<td><input style="display:none;" name="numOfGames" id="numOfGames" value="<%=numOfGames%>"/></td>
+		<td>
+			<div style="width:100%; text-align:center; color:white;">
+			   Number of tickets:&nbsp;&nbsp;&nbsp;<input id="numOfTix" name="numOfTix" type="text" size="3"  maxlength="3" value="50" style="text-align:center;"/><br>
+			</div>
+		</td>
+		<td><input style="display:none;" name="week" id="week" value="<%=week%>"/></td>
+	 </tr>
+	 
 	 <tr>
 		<td></td>
 		<td>
 			<div style="width:100%; text-align:center;">
-			   <input type="submit" class="btn btn-success" value="Generate Winning Tickets"/><br>
+			   <input id="submitbtn" type="submit" class="btn btn-success" value="Generate Winning Tickets"/><br>
 			</div>
 		</td>
 		<td></td>
@@ -104,8 +125,8 @@ input.form-fixer {
 		var output = [];
 		var homeprob = [];
 		var awayprob = [];
-		var num = <%=homeTeams.length%>;
-		for (var i = 1; i < num; i++){
+		var num = <%=numOfGames%>;
+		for (var i = 0; i < num; i++){
 			homeprob[i] = document.getElementById("homeProb"+i+"");
 			awayprob[i] = document.getElementById("awayProb"+i+"");
 			

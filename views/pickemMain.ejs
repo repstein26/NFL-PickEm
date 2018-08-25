@@ -49,21 +49,30 @@ input {
 }
 
 .field {
-   background-image: url('/field.jpg');
+   background-image: url('/img/field.jpg');
    no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
 }
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+}
   </style>
 </head>
 <body class="field">
 <div style="text-align:center; font-weight:bold; color:white; font-size:20px;">
-Welcome to the NFL PickEm' Web App!<br>Love you Morgan ! ;)<br><br>
+Welcome to the NFL PickEm' Web App!<br><br>
 </div>
 <form class="form-inline justify-content-center" action="/weekpicker" method="post">
-<div class="btn-group-vertical button-wrapper" role="group">
+<div class="btn-group-vertical" role="group">
 
 
 
@@ -127,7 +136,7 @@ Welcome to the NFL PickEm' Web App!<br>Love you Morgan ! ;)<br><br>
       <td>
 		<input type="submit" class="btn btn-checker1" name="week" id="week16" value="Week 16"/>
 	  </td>
-      <td class="btn-checker0"></td>
+      <td id="myBtn" style="background-color:red; opacity:1.0;" class="btn-checker0">?</td>
       <td>
 		<input type="submit" class="btn btn-checker1" name="week" id="week17" value="Week 17"/>
 	</td>
@@ -135,9 +144,64 @@ Welcome to the NFL PickEm' Web App!<br>Love you Morgan ! ;)<br><br>
 	
   </tbody>
 </table>
+<br>
 </div>
 </form>
 <div style="text-align:center; font-weight:bold; color:white; font-size:20px;">
 </div>
+
+<div id="myModal" class="modal" tabindex="-1" role="dialog">
+
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">NFL PickEm' Help</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Welcome to the NFL PickEm' App. The purpose of this web application is to give you a list of potential winning 'tickets' for each NFL Week based on the probabilities you select for each matchup.<br><br>Choose a week to get started.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="modalCloseBtn" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+  <p style="color:white; text-align:center; background-color:black;">Developed by Russell Epstein</p>
 </body>
+
+<script>
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+document.getElementById("modalCloseBtn").onclick = function(){
+	modal.style.display = "none";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
 </html>
