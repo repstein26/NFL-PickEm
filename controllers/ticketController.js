@@ -6,12 +6,14 @@ const { sanitizeBody } = require('express-validator/filter');
 
 // Display list of all Tickets.
 exports.ticket_list = function(req, res, next) {
+	
     Ticket.find({'week': req.query.week})
     .sort([['_id', 'descending']])
     .exec(function (err, list_tickets) {
       if (err) { return next(err); }
-      //Successful, so render
-      res.render('ticket_list.ejs', { title: 'Ticket List', ticket_list: list_tickets});
+      //Successful, so render	
+		res.render('ticket_list.ejs', { title: 'Ticket List', ticket_list: list_tickets});
+		
     });
 
 };

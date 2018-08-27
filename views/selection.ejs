@@ -19,9 +19,39 @@
     background-size: auto;
 }
 
+.bg-black {
+    background-color: black;
+}
+
  </style>
 </head>
 <body class="field">
+<nav class="navbar navbar-expand-sm navbar-dark bg-black">
+  <!-- Brand -->
+  <a class="navbar-brand" href="#"><img src="/img/football_large.png" height="25" width="25"></a>
+
+  <!-- Links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="/week">Home</a>
+    </li>
+
+	<li class="nav-item">
+      <div class="nav-link" href="#" id="myBtn">Help</div>
+    </li>
+    <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        View Tickets
+      </a>
+      <div class="dropdown-menu">
+      <% for (var i = 1; i <= 17; i++){ %>
+			<a class="dropdown-item" href="/checktickets<%=i%>">Week <%=i%></a>
+	  <% } %>
+      </div>
+    </li>
+  </ul>
+</nav><br>
 <div id="titlediv" style="text-align:center; font-weight:bold; color:white; font-size:20px;">
 Something went wrong, please refresh page or return to the previous page <br><br>
 </div>

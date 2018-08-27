@@ -102,9 +102,38 @@ app.get('/ticket_list', function(req, res) {
 	res.render('ticket_list.ejs', {ticketlist: myJSON, test: "test"} );
 });
 
+app.get('/checktickets:week', function(req, res) {
+	var week = req.params.week;
+	var t = new Ticket();
+	Ticket.find({'week': week})
+    .exec(function (err, list_tickets) {
+      if (err) { return next(err); }
+	  // if tickets in db, then display them
+	  if (list_tickets.length > 0){
+		  res.redirect('/selection/tickets?week='+week);
+	  } 
+	  // if no tickets, bring them straight to pickem page
+	  else {
+		  res.redirect('/selection/matchup?week='+week);
+	  }
+    });
+});
 
 app.get('/selection', function(req, res) {
-	res.render('selection.ejs', {});
+	var week = req.query.week;
+	var t = new Ticket();
+	Ticket.find({'week': week})
+    .exec(function (err, list_tickets) {
+      if (err) { return next(err); }
+	  // if tickets in db, then display selection page
+	  if (list_tickets.length > 0){
+		  res.render('selection.ejs', {});
+	  } 
+	  // if no tickets, bring them straight to pickem page
+	  else {
+		  res.redirect('/selection/matchup?week='+week+'');
+	  }
+    });
 });
 
 app.get('/week', function(req, res) {
@@ -170,8 +199,6 @@ app.post('/selection/results', function(req, res) {
 			   throw err;
 			});
 		
-		} else {
-			console.log("Duplicate ticket stopped from being added");
 		}
 		
 		
