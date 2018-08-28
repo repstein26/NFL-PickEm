@@ -10,6 +10,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
  <style>
+ .navbar-nav > li > .dropdown-menu { background-color: black; }
  .field {
    background-image: url('/img/field.jpg');
    no-repeat center center fixed;
@@ -29,6 +30,8 @@ body {
   height: 100%;
   background: linear-gradient(to bottom, #020111 10%, #3a3a52 100%);
 }
+
+html, body {width: auto!important; overflow-x: hidden!important} 
 
 .accordion {
   max-width: 500px;
@@ -119,11 +122,14 @@ body {
     background-color: black;
 }
 
+.alternate {
+	background-color:	#550909;
+}
 
  </style>
 </head>
 <body class="field">
-<nav class="navbar navbar-expand-sm navbar-dark bg-black">
+<nav class="navbar navbar-expand navbar-dark bg-black">
   <!-- Brand -->
   <a class="navbar-brand" href="#"><img src="/img/football_large.png" height="25" width="25"></a>
 
@@ -141,9 +147,9 @@ body {
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         View Tickets
       </a>
-      <div class="dropdown-menu">
+      <div class="dropdown-menu" id="ticketlistdropdown">
       <% for (var i = 1; i <= 17; i++){ %>
-			<a class="dropdown-item" href="/checktickets<%=i%>">Week <%=i%></a>
+			<a class="dropdown-item" href="/checktickets<%=i%>" style="color:white;">Week <%=i%></a>
 	  <% } %>
       </div>
     </li>
@@ -218,6 +224,7 @@ body {
 
 </body>
 <script>
+$('#ticketlistdropdown a:nth-child(odd)').addClass('alternate');
 
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;

@@ -9,6 +9,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   <style>
+  .navbar-nav > li > .dropdown-menu { background-color: black; }
+  
+  html, body {width: auto!important; overflow-x: hidden!important} 
+  
   .button-wrapper .btn {
     margin-bottom:25px;
 	}
@@ -73,11 +77,22 @@ input {
 #myBtn{
 	cursor:pointer;
 }
+
+.bottom {
+    position: fixed;
+    text-align: center;    
+    bottom: 0px; 
+    width: 100%;
+}
+
+.alternate {
+	background-color:	#550909;
+}
+
   </style>
 </head>
 <body class="field">
-
-<nav class="navbar navbar-expand-sm navbar-dark bg-black">
+<nav class="navbar navbar-expand navbar-dark bg-black">
   <!-- Brand -->
   <a class="navbar-brand" href="#"><img src="/img/football_large.png" height="25" width="25"></a>
 
@@ -95,14 +110,15 @@ input {
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         View Tickets
       </a>
-      <div class="dropdown-menu">
+      <div class="dropdown-menu" id="ticketlistdropdown">
       <% for (var i = 1; i <= 17; i++){ %>
-			<a class="dropdown-item" href="/checktickets<%=i%>">Week <%=i%></a>
+			<a class="dropdown-item" href="/checktickets<%=i%>" style="color:white;">Week <%=i%></a>
 	  <% } %>
       </div>
     </li>
   </ul>
 </nav><br>
+
 <div style="text-align:center; font-weight:bold; color:white; font-size:20px;">
 Welcome to the NFL PickEm' Web App!<br><br>
 </div>
@@ -205,10 +221,16 @@ Welcome to the NFL PickEm' Web App!<br><br>
   </div>
 </div>
 <br>
-  <p style="color:white; text-align:center; background-color:black;">Developed by Russell Epstein</p>
+<br>
+<div id="container" style="position:relative;">
+  <div style="color:white; text-align:center; background-color:black; position:fixed; bottom:0;  width:100%;">Developed by Russell Epstein</div>
+  </div>
 </body>
 
 <script>
+
+$('#ticketlistdropdown a:nth-child(odd)').addClass('alternate');
+
 // Get the modal
 var modal = document.getElementById('myModal');
 

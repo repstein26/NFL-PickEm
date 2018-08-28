@@ -9,9 +9,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   <style>
+  .navbar-nav > li > .dropdown-menu { background-color: black; }
   .slidecontainer {
     width: 100%; /* Width of the outside container */
 }
+html, body {width: auto!important; overflow-x: hidden!important} 
 
 /* The slider itself */
 .slider {
@@ -55,11 +57,19 @@ input.form-fixer {
     font-size: 19px;
 }
 
+
+.alternate {
+	background-color:	#550909;
+}
+
+.dropdown-item{
+	cursor: pointer;
+}
   </style>
  
 </head>
 <body>
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+<nav class="navbar navbar-expand bg-dark navbar-dark">
   <!-- Brand -->
   <a class="navbar-brand" href="#"><img src="/img/football_large.png" height="25" width="25"></a>
 
@@ -77,9 +87,9 @@ input.form-fixer {
       <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
         View Tickets
       </a>
-      <div class="dropdown-menu">
+      <div class="dropdown-menu" id="ticketlistdropdown">
       <% for (var i = 1; i <= 17; i++){ %>
-			<a class="dropdown-item" href="/checktickets<%=i%>">Week <%=i%></a>
+			<a class="dropdown-item" href="/checktickets<%=i%>" style="color:white;">Week <%=i%></a>
 	  <% } %>
       </div>
     </li>
@@ -125,7 +135,22 @@ input.form-fixer {
 		<td><input style="display:none;" name="numOfGames" id="numOfGames" value="<%=numOfGames%>"/></td>
 		<td>
 			<div style="width:100%; text-align:center; color:white;">
-			   Number of tickets:&nbsp;&nbsp;&nbsp;<input id="numOfTix" name="numOfTix" type="text" size="3"  maxlength="3" value="50" style="text-align:center;"/><br>
+			   Number of tickets:&nbsp;&nbsp;&nbsp;<input id="numOfTix" name="numOfTix" class="btn btn-outline-secondary dropdown-toggle" type="text" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" size="2"  maxlength="2" readonly style="text-align:center;" value="50"/>
+			   <div id="ticketnumberselector" class="dropdown-menu" style="width:5px;">
+					<input type="text" class="dropdown-item" onclick="setTicketNumber(this);" readonly value="1"/>
+				  <div role="separator" class="dropdown-divider"></div>
+					<input type="text" class="dropdown-item" onclick="setTicketNumber(this);" readonly value="5"/>
+					<div role="separator" class="dropdown-divider"></div>
+					<input type="text" class="dropdown-item" onclick="setTicketNumber(this);" readonly value="10"/>
+				  <div role="separator" class="dropdown-divider"></div>
+					<input type="text" class="dropdown-item" onclick="setTicketNumber(this);" readonly value="25"/>
+				  <div role="separator" class="dropdown-divider"></div>
+					<input type="text" class="dropdown-item" onclick="setTicketNumber(this);" readonly value="40"/>
+				  <div role="separator" class="dropdown-divider"></div>
+					<input type="text" class="dropdown-item" onclick="setTicketNumber(this);" readonly value="50"/>
+				  </div>
+			   
+			   <br>
 			</div>
 		</td>
 		<td><input style="display:none;" name="week" id="week" value="<%=week%>"/></td>
@@ -147,6 +172,15 @@ input.form-fixer {
 	 </p>
 	</form>
 	<script>
+	
+	
+	
+	$('#ticketlistdropdown a:nth-child(odd)').addClass('alternate');
+	
+	function setTicketNumber(element){
+		$('#numOfTix').val(element.value);
+		$('#ticketnumberselector').dropdown('toggle');
+	}
 		var slider = [];
 		var output = [];
 		var homeprob = [];
@@ -161,7 +195,7 @@ input.form-fixer {
 			awayprob[i].value = 100-slider[i].value;
 
 			slider[i].oninput = function() {
-				for (var j = 1; j < num; j++){
+				for (var j = 0; j < num; j++){
 					homeprob[j].value = slider[j].value;
 					awayprob[j].value = 100-slider[j].value;
 				}

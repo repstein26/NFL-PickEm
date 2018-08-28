@@ -93,7 +93,7 @@ app.use(express.static('public'));
 app.get('/', function(req, res) {
    // res.setHeader('Content-Type', 'text/plain');
    // res.end('Please browse to http://localhost:8080/weekX/ where X is the NFL Week number \n(i.e. http://localhost:8080/week1/)');
-   res.render('index.ejs', {});
+   res.render('portfolio.ejs', {});
 });
 
 //temporary to be removed
