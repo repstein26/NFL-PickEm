@@ -101,6 +101,11 @@ app.get('/undefined', function(req, res) {
    res.end();
 });
 
+app.get('/dad', function(req, res) {
+   res.render('dad.ejs', {});
+});
+
+
 //temporary to be removed
 app.get('/ticket_list', function(req, res) {
 	var myJSON = JSON.stringify(NFLAbbrevs);

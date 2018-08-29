@@ -28,6 +28,31 @@
 	 <!-- CSS -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100italic,300,300italic,400,400italic,500,500italic">
  
+ 
+ <style>
+ .row {
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+    -ms-flex-wrap: wrap; /* IE 10 */
+    flex-wrap: wrap;
+    padding: 0 4px;
+}
+
+/* Create two equal columns that sits next to each other */
+.project {
+    -ms-flex: 25%; /* IE 10 */
+    flex: 25%;
+    padding: 0 4px;
+}
+
+.project img {
+    margin-top: 8px;
+    vertical-align: middle;
+	 max-height: 100%;
+    max-width: 100%;
+}
+ </style>
+ 
 </head>
 <body>
 <nav class="navbar navbar-expand"  style="background-color: #333;">
@@ -169,6 +194,7 @@
 	</section><!-- about-section -->
 	
 	<section class="portfolio-section section" style="background:url('/style/images/bg.jpg'); background-size:cover;" id="projectssection">
+		
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12 col-md-3">
@@ -179,31 +205,71 @@
 				</div><!-- col-sm-3 -->
 			</div><!-- row -->
 			
+			
+			<div class="container-fluid" style="color:white;">
+			<div class="row" style="text-align:center;">
+			
+			 <div class="col-sm-4">
+			 <h4>Football Pick'Em</h4>
+				<a href="/week" target="_blank">
+				<div class="card" style="background-color:gray;">
+				<img class="card-img-top" src="/style/images/pickem.png" alt="Card image">
+				</div>
+				</a>
+			</div>
+			
+			<div class="col-sm-4">
+			 <h4>Automated Pill Dispenser</h4>
+				<div class="card">
+					 <a class="launch-modal" data-modal-id="modal-video">
+                            <img src="/style/images/capstone1.jpg" alt="">
+                        </a>
+				
+				</div>
+			</div>
+			
+			<div class="col-sm-4">
+				<h4>Direct Alert Distributor</h4>
+				<a href="/dad/" target="_blank">
+				<div class="card">
+				<img class="card-img-top img-fluid" src="/style/images/dad_icon.png" alt="Card image">
+			    </div>
+				</a>
+			</div>
+			
+
+			
+			</div> <!-- row -->
+			</div> <!-- container -->
+		 
+
+			
+			<!--
 			<div class="portfolioContainer  margin-b-50">
 				<div class="p-item" id="footballpickem" class="portfoliodiv">
-				 <a href="/week/" target="_blank">
+				 
 				<div style="color:white; text-align:center;"><b>Football Pick'Em</b>
                        
                             <img src="/style/images/pickem.png">
                        
                 </div>	 </a>	
-				</div><!-- p-item -->
+				</div>
 				
 				<div class="p-item" class="portfoliodiv">
 				<div style="color:white; text-align:center;"><b>XXXX</b>
                         <a class="launch-modal" data-modal-id="modal-video">
-                            <img src="/style/images/capstone.jpg" alt="">
+                            <img src="/style/images/black.jpg" alt="">
                         </a>
                 </div>		
-				</div><!-- p-item -->
+				</div>
 				
 				<div class="p-item" class="portfoliodiv">
-				<div style="color:white; text-align:center;"><b>XXXXXX</b>
-                        <a class="launch-modal" data-modal-id="modal-video">
-                            <img src="/style/images/capstone.jpg" alt="">
-                        </a>
+				<a href="/dad/" target="_blank">
+				<div style="color:white; text-align:center;"><b>Direct Alert Distributor</b>
+                        <img src="/style/images/dad_icon.png" height="280px">
                 </div>		
-				</div><!-- p-item -->
+				</a>
+				</div>
 				
 				<div class="p-item" class="portfoliodiv">
 				<div style="color:white; text-align:center;"><b>Automated Pill Dispenser</b>
@@ -211,7 +277,9 @@
                             <img src="/style/images/capstone1.jpg" alt="">
                         </a>
                 </div>		
-				</div><!-- p-item -->
+				</div>
+				
+				
 			
 			
 			</div><!-- portfolioContainer -->
@@ -312,7 +380,7 @@
 						<div class="modal-video">
                             <div class="embed-responsive embed-responsive-16by9">
 								<iframe width="420" height="315"
-									src="https://www.youtube.com/embed/91oR_vLDTrA">
+									src="https://www.youtube.com/embed/91oR_vLDTrA?rel=0">
 								</iframe>
 								
                             </div>
