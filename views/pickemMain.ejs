@@ -58,7 +58,8 @@ input {
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover;
+  background-size: auto;
+  background-repeat: no-repeat;
 }
 
 .footer {
@@ -202,7 +203,6 @@ Welcome to the NFL PickEm' Web App!<br><br>
 </div>
 
 <div id="myModal" class="modal" tabindex="-1" role="dialog">
-
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -222,8 +222,8 @@ Welcome to the NFL PickEm' Web App!<br><br>
 </div>
 <br>
 <br>
-<div id="container" style="position:relative;">
-  <div style="color:white; text-align:center; background-color:black; position:fixed; bottom:0;  width:100%;">Developed by Russell Epstein</div>
+<div id="container" style=" min-height: 15vh; overflow: hidden; display: block; position: relative; padding-bottom: 100px;">
+  <div style="color:white; text-align:center; background-color:black; position:absolute; bottom:0;  width:100%;">Developed by Russell Epstein</div>
   </div>
 </body>
 

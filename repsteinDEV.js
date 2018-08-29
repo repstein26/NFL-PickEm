@@ -96,6 +96,11 @@ app.get('/', function(req, res) {
    res.render('portfolio.ejs', {});
 });
 
+app.get('/undefined', function(req, res) {
+   res.send("couldn't load page");
+   res.end();
+});
+
 //temporary to be removed
 app.get('/ticket_list', function(req, res) {
 	var myJSON = JSON.stringify(NFLAbbrevs);
