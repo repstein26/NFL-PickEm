@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Morgan is hotttt</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script src="lib/d3/d3.js"></script>
+  <script src="lib/d3/d3.layout.cloud.js"></script>
+  <script src="d3.wordcloud.js"></script>
+<style>
+.bg {
+   background-image: url('/style/images/dadbg.jpg');
+   no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: auto;
+  background-repeat: no-repeat;
+}
+
+.bg-black {
+    background-color: #000066;
+}
+
+</style>
+</head>
+<body class="bg" style="text-align:center; color:white; position:relative;" >
+<div id='wordcloud' class="container" style="width:400; height:400;"></div>
+    <script>
+	
+	
+	var words = [{text: 'MORGAN', size: Math.floor((Math.random() * 100) + 1)},
+  {text: 'I', size: Math.floor((Math.random() * 120) + 1)},
+  {text: 'LOVE', size: Math.floor((Math.random() * 100) + 1)},
+  {text: 'YOU', size: Math.floor((Math.random() * 100) + 1)},
+  {text: 'BABE', size: Math.floor((Math.random() * 120) + 1)},
+  {text: 'AMAZING', size: Math.floor((Math.random() * 100) + 1)},
+  {text: 'BEAUTIFUL', size: Math.floor((Math.random() * 100) + 1)},
+  {text: 'SEXY', size: Math.floor((Math.random() * 120) + 1)},
+  {text: 'PRETTY', size: Math.floor((Math.random() * 100) + 1)},
+  {text: 'ADORABLE', size: Math.floor((Math.random() * 100) + 1)},
+  {text: 'HOT', size: Math.floor((Math.random() * 120) + 1)},
+  {text: 'CUTE', size: Math.floor((Math.random() * 100) + 1)},
+  {text: 'CUTIE', size: Math.floor((Math.random() * 100) + 1)},
+  {text: '<3', size: Math.floor((Math.random() * 120) + 1)},
+  {text: 'BEST', size: Math.floor((Math.random() * 100) + 1)},
+  {text: 'DARLING', size: Math.floor((Math.random() * 120) + 1)},
+  {text: 'SWEET', size: Math.floor((Math.random() * 100) + 1)},
+  {text: 'CARING', size: Math.floor((Math.random() * 120) + 1)},
+  {text: 'SMART', size: Math.floor((Math.random() * 100) + 1)},
+  {text: 'DELIGHTFUL', size: Math.floor((Math.random() * 100) + 1)},
+  {text: 'fuckme', size: 25},
+  {text: 'HOTTIE', size: Math.floor((Math.random() * 120) + 1)},
+  {text: 'SEX MACHINE', size: Math.floor((Math.random() * 100) + 1)},
+  {text: 'LOVER', size: Math.floor((Math.random() * 100) + 1)}
+  ];
+	
+      d3.wordcloud()
+        .size([500, 300])
+        .selector('#wordcloud')
+		.fill(d3.scale.ordinal().range(["#FFFFFF", "#40E0D0", "#f9f489", "#ff554c"]))
+		.words(words)
+        .start();
+    </script>
+
+</body>
+
+</html>

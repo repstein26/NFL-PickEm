@@ -219,7 +219,9 @@ app.post('/selection/results', function(req, res) {
 	
 });
 
-
+app.get('/morgan', function(req, res) {
+   res.render('morgan.ejs', {});
+});
 
 
 app.listen(port);
