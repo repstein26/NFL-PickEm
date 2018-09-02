@@ -169,16 +169,23 @@ html, body {width: auto!important; overflow-x: hidden!important}
  <% for (var i = 0; i < ticket_list.length; i++){ %>
     <li class="accordion__item">
       <div class="accordion__itemTitleWrap">
-        <h3 class="accordion__itemTitle">Ticket <%=i+1%></h3>
+		<% 	var tickets = ticket_list[i].toString().split(",");
+		var id = tickets[0].substring(6).trim();
+		var teams = tickets[1].substring(17, tickets[1].length-1).trim().split(/  | /);
+		var comments = tickets[3].substring(13, tickets[3].length-1).trim(); 
+		if (comments == ""){ %>
+		  <h3 class="accordion__itemTitle" id="ticketh3<%=i%>">Ticket <%=i+1%> of <%=ticket_list.length%></h3>
+		<%} else{ %>
+		  <h3 class="accordion__itemTitle" id="ticketh3<%=i%>">Ticket <%=i+1%> of <%=ticket_list.length%> -- <%=comments%></h3>
+		<% } %>
+      
         <div class="accordion__itemIconWrap"><svg viewBox="0 0 24 24"><polyline fill="none" points="21,8.5 12,17.5 3,8.5 " stroke="#FFF" stroke-miterlimit="10" stroke-width="2"/></svg></div>
       </div>
       <div class="accordion__itemContent" style="opacity:0.85;">
 	 <form class="form-inline justify-content-center" action="/selection/deleteticket" method="post">
 		<table class='table table-striped'>
-	  <%
-		var tickets = ticket_list[i].toString().split(",");
-		var id = tickets[0].substring(6).trim();
-		var teams = tickets[1].substring(17, tickets[1].length-1).trim().split(/  | /);
+	 <%
+		
 		for (var a = 0; a < teams.length; a++){	 %>
 			<tr>
 				<td><b> <%=teams[a]%> </b></td>

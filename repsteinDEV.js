@@ -178,6 +178,10 @@ app.post('/selection/results', function(req, res) {
 	var winningTeamStringBuilder = "";
 	var numOfTickets = req.body.numOfTix;
 	var week = req.body.week;
+	var comment = req.body.comment;
+	if (comment == ""){
+		comment = " ";
+	}
 	var arrayOfTickets = new Array();
 	
 	awayList = req.body.awayList.split(",");
@@ -189,6 +193,7 @@ app.post('/selection/results', function(req, res) {
 			awayProbability = "awayProb"+i;
 			homeProb[i] = req.body[homeProbability];
 			awayProb[i] = req.body[awayProbability];
+			
 			var rand = generateRand();
 			if (rand <= homeProb[i]){
 				winners[i] = homeList[i];
@@ -201,7 +206,8 @@ app.post('/selection/results', function(req, res) {
 			arrayOfTickets[a] = winningTeamStringBuilder;
 			var t = new Ticket({
 				tickets: winningTeamStringBuilder,
-				week: week
+				week: week,
+				comment: comment
 			});
 			winningTeamStringBuilder = "";
 			t.save(function(err) {

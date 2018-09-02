@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Morgan is hotttt</title>
+  <title>Poetry</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="lib/d3/d3.js"></script>
   <script src="lib/d3/d3.layout.cloud.js"></script>
   <script src="d3.wordcloud.js"></script>
+
 <style>
 .bg {
    background-image: url('/style/images/dadbg.jpg');
@@ -18,7 +20,7 @@
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: auto;
+  background-size: cover;
   background-repeat: no-repeat;
 }
 
@@ -26,45 +28,436 @@
     background-color: #000066;
 }
 
+.inner {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 200px;
+  height: 200px;
+  opacity:.5;
+}
+	
 </style>
 </head>
-<body class="bg" style="text-align:center; color:white; position:relative;" >
-<div id='wordcloud' class="container" style="width:400; height:400;"></div>
+<body class="bg" style="text-align:center; color:white; position:relative; height: 100vh; width: 100vw" >
+
+<table  id='wordcloud' class="wordcloud" style="width:100%;  height: 100%;">
+<tr><td><div id="a1_1" style="height: 100%; width: 100%"></td><td><div id="a1_2"  style="height: 100%; width: 100%"></td><td><div id="a1_3" style="height: 100%; width: 100%"></td></tr>
+<tr><td><div id="a2_1" style="height: 100%; width: 100%"></td><td><div id="a2_2" style="height: 100%; width: 100%"></td><td><div id="a2_3" style="height: 100%; width: 100%"></td></tr>
+<tr><td><div id="a3_1" style="height: 100%; width: 100%"></td><td><div id="a3_2" style="height: 100%; width: 100%"></td><td><div id="a3_3" style="height: 100%; width: 100%"></td></tr>
+</table>
+<!--div id='wordcloud' class="wordcloud" style="width:100%;  height: 100%;">
+
+<div id="innerdiv" style="background-color:white;" class="inner" >aaaaaaaaaaaaaaaaaaaaaa</div>
+
+</div-->
     <script>
+	function chunkify(a, n, balanced) {
+    if (n < 2)
+        return [a];
+    var len = a.length,
+            out = [],
+            i = 0,
+            size;
+    if (len % n === 0) {
+        size = Math.floor(len / n);
+        while (i < len) {
+            out.push(a.slice(i, i += size));
+        }
+    }
+    else if (balanced) {
+        while (i < len) {
+            size = Math.ceil((len - i) / n--);
+            out.push(a.slice(i, i += size));
+        }
+    }
+    else {
+        n--;
+        size = Math.floor(len / n);
+        if (len % size === 0)
+            size--;
+        while (i < size * n) {
+            out.push(a.slice(i, i += size));
+        }
+        out.push(a.slice(size * n));
+    }
+    return out;
+}
 	
 	
-	var words = [{text: 'MORGAN', size: Math.floor((Math.random() * 100) + 1)},
-  {text: 'I', size: Math.floor((Math.random() * 120) + 1)},
-  {text: 'LOVE', size: Math.floor((Math.random() * 100) + 1)},
-  {text: 'YOU', size: Math.floor((Math.random() * 100) + 1)},
-  {text: 'BABE', size: Math.floor((Math.random() * 120) + 1)},
-  {text: 'AMAZING', size: Math.floor((Math.random() * 100) + 1)},
-  {text: 'BEAUTIFUL', size: Math.floor((Math.random() * 100) + 1)},
-  {text: 'SEXY', size: Math.floor((Math.random() * 120) + 1)},
-  {text: 'PRETTY', size: Math.floor((Math.random() * 100) + 1)},
-  {text: 'ADORABLE', size: Math.floor((Math.random() * 100) + 1)},
-  {text: 'HOT', size: Math.floor((Math.random() * 120) + 1)},
-  {text: 'CUTE', size: Math.floor((Math.random() * 100) + 1)},
-  {text: 'CUTIE', size: Math.floor((Math.random() * 100) + 1)},
-  {text: '<3', size: Math.floor((Math.random() * 120) + 1)},
-  {text: 'BEST', size: Math.floor((Math.random() * 100) + 1)},
-  {text: 'DARLING', size: Math.floor((Math.random() * 120) + 1)},
-  {text: 'SWEET', size: Math.floor((Math.random() * 100) + 1)},
-  {text: 'CARING', size: Math.floor((Math.random() * 120) + 1)},
-  {text: 'SMART', size: Math.floor((Math.random() * 100) + 1)},
-  {text: 'DELIGHTFUL', size: Math.floor((Math.random() * 100) + 1)},
-  {text: 'fuckme', size: 25},
-  {text: 'HOTTIE', size: Math.floor((Math.random() * 120) + 1)},
-  {text: 'SEX MACHINE', size: Math.floor((Math.random() * 100) + 1)},
-  {text: 'LOVER', size: Math.floor((Math.random() * 100) + 1)}
-  ];
 	
-      d3.wordcloud()
-        .size([500, 300])
-        .selector('#wordcloud')
-		.fill(d3.scale.ordinal().range(["#FFFFFF", "#40E0D0", "#f9f489", "#ff554c"]))
-		.words(words)
-        .start();
+	var words = [
+  {text: 'a couple of', size: 1},
+  {text: 'accurate', size: 1},
+  {text: 'address', size: 1},
+  {text: 'advertise', size: 1},
+  {text: 'affect', size: 1},
+  {text: 'affected', size: 1},
+  {text: 'affix', size: 1},
+  {text: 'agony', size: 1},
+  {text: 'aim', size: 1},
+  {text: 'alarm', size: 1},
+  {text: 'alarmed', size: 1},
+  {text: 'alive', size: 1},
+  {text: 'all over', size: 1},
+  {text: 'all the way', size: 1},
+  {text: 'allot', size: 1},
+  {text: 'allotted', size: 1},
+  {text: 'aloud', size: 1},
+  {text: 'alphabet', size: 1},
+  {text: 'alphabetical', size: 1},
+  {text: 'alternately', size: 1},
+  {text: 'alternative', size: 1},
+  {text: 'anciently', size: 1},
+  {text: 'animate', size: 1},
+  {text: 'animated', size: 1},
+  {text: 'anxious', size: 1},
+  {text: 'apparently', size: 1},
+  {text: 'apparition', size: 1},
+  {text: 'appendage', size: 1},
+  {text: 'appetite', size: 1},
+  {text: 'applicant', size: 1},
+  {text: 'applied', size: 1},
+  {text: 'apply', size: 1},
+  {text: 'apprentice', size: 1},
+  {text: 'approach', size: 1},
+  {text: 'approaching', size: 1},
+  {text: 'appropriate', size: 1},
+  {text: 'approvingly', size: 1},
+  {text: 'arrive at', size: 1},
+  {text: 'articulate', size: 1},
+  {text: 'articulated', size: 1},
+  {text: 'as it is', size: 1},
+  {text: 'assiduously', size: 1},
+  {text: 'assigned', size: 1},
+  {text: 'assist', size: 1},
+  {text: 'assisted', size: 1},
+  {text: 'astound', size: 1},
+  {text: 'astounded', size: 1},
+  {text: 'at length', size: 1},
+  {text: 'atrociously', size: 1},
+  {text: 'attended', size: 1},
+  {text: 'attending', size: 1},
+  {text: 'attribute', size: 1},
+  {text: 'awaken', size: 1},
+  {text: 'bachelor', size: 1},
+  {text: 'badge', size: 1},
+  {text: 'bait', size: 1},
+  {text: 'balance', size: 1},
+  {text: 'baptize', size: 1},
+  {text: 'baptized', size: 1},
+  {text: 'Beadle', size: 1},
+  {text: 'beer', size: 1},
+  {text: 'befall', size: 1},
+  {text: 'beg', size: 1},
+  {text: 'beggar', size: 1},
+  {text: 'behold', size: 1},
+  {text: 'benevolent', size: 1},
+  {text: 'bestow', size: 1},
+  {text: 'bid', size: 1},
+  {text: 'bidding', size: 1},
+  {text: 'biography', size: 1},
+  {text: 'bitterly', size: 1},
+  {text: 'blandness', size: 1},
+  {text: 'blanket', size: 1},
+  {text: 'blessed', size: 1},
+  {text: 'blessing', size: 1},
+  {text: 'blow', size: 1},
+  {text: 'bolt', size: 1},
+  {text: 'bosom', size: 1},
+  {text: 'branch', size: 1},
+  {text: 'brat', size: 1},
+  {text: 'bread and butter', size: 1},
+  {text: 'breakfast', size: 1},
+  {text: 'breathe', size: 1},
+  {text: 'breathed', size: 1},
+  {text: 'brown', size: 1},
+  {text: 'brush', size: 1},
+  {text: 'brushed', size: 1},
+  {text: 'buffet', size: 1},
+  {text: 'buffeted', size: 1},
+  {text: 'build', size: 1},
+  {text: 'burden', size: 1},
+  {text: 'burst', size: 1},
+  {text: 'butter', size: 1},
+  {text: 'by hand', size: 1},
+  {text: 'by no means', size: 1},
+  {text: 'calico', size: 1},
+  {text: 'calling', size: 1},
+  {text: 'calm', size: 1},
+  {text: 'cap', size: 1},
+  {text: 'capital', size: 1},
+  {text: 'captivate', size: 1},
+  {text: 'captivating', size: 1},
+  {text: 'careful', size: 1},
+  {text: 'carelessly', size: 1},
+  {text: 'catch sight', size: 1},
+  {text: 'catch up', size: 1},
+  {text: 'catching', size: 1},
+  {text: 'cellar', size: 1},
+  {text: 'chafe', size: 1},
+  {text: 'chafed', size: 1},
+  {text: 'check', size: 1},
+  {text: 'checked', size: 1},
+  {text: 'cheerfulness', size: 1},
+  {text: 'childish', size: 1},
+  {text: 'choleric', size: 1},
+  {text: 'circumference', size: 1},
+  {text: 'clean', size: 1},
+  {text: 'clearly', size: 1},
+  {text: 'cling', size: 1},
+  {text: 'cloth', size: 1},
+  {text: 'clothes', size: 1},
+  {text: 'clothing', size: 1},
+  {text: 'coal', size: 1},
+  {text: 'coat', size: 1},
+  {text: 'cold water', size: 1},
+  {text: 'combination', size: 1},
+  {text: 'come on', size: 1},
+  {text: 'come out', size: 1},
+  {text: 'comfort', size: 1},
+  {text: 'comfortable', size: 1},
+  {text: 'Commons', size: 1},
+  {text: 'commons', size: 1},
+  {text: 'compelling', size: 1},
+  {text: 'complacently', size: 1},
+  {text: 'completed', size: 1},
+  {text: 'compliment', size: 1},
+  {text: 'composed', size: 1},
+  {text: 'composition', size: 1},
+  {text: 'comprise', size: 1},
+  {text: 'concise', size: 1},
+  {text: 'conclave', size: 1},
+  {text: 'confinement', size: 1},
+  {text: 'consideration', size: 1},
+  {text: 'consign', size: 1},
+  {text: 'consolatory', size: 1},
+  {text: 'contents', size: 1},
+  {text: 'contracted', size: 1},
+  {text: 'contrive', size: 1},
+  {text: 'contrived', size: 1},
+  {text: 'controvert', size: 1},
+  {text: 'cork', size: 1},
+  {text: 'corn', size: 1},
+  {text: 'cottage', size: 1},
+  {text: 'cough', size: 1},
+  {text: 'coupled', size: 1},
+  {text: 'cover', size: 1},
+  {text: 'covering', size: 1},
+  {text: 'coverlet', size: 1},
+  {text: 'crop', size: 1},
+  {text: 'culprit', size: 1},
+  {text: 'cupboard', size: 1},
+  {text: 'curtsey', size: 1},
+  {text: 'custom', size: 1},
+  {text: 'darkly', size: 1},
+  {text: 'date', size: 1},
+  {text: 'deceive', size: 1},
+  {text: 'deception', size: 1},
+  {text: 'decision', size: 1},
+  {text: 'define', size: 1},
+  {text: 'defined', size: 1},
+  {text: 'delegate', size: 1},
+  {text: 'deliberation', size: 1},
+  {text: 'deliver', size: 1},
+  {text: 'demolition', size: 1},
+  {text: 'demonstrate', size: 1},
+  {text: 'demonstrated', size: 1},
+  {text: 'depict', size: 1},
+  {text: 'depicted', size: 1},
+  {text: 'depth', size: 1},
+  {text: 'desperate', size: 1},
+  {text: 'despise', size: 1},
+  {text: 'despised', size: 1},
+  {text: 'destitute', size: 1},
+  {text: 'determine', size: 1},
+  {text: 'devotional', size: 1},
+  {text: 'devour', size: 1},
+  {text: 'dietary', size: 1},
+  {text: 'dignified', size: 1},
+  {text: 'dignify', size: 1},
+  {text: 'dignity', size: 1},
+  {text: 'diminutive', size: 1},
+  {text: 'dirt', size: 1},
+  {text: 'disappear', size: 1},
+  {text: 'discussion', size: 1},
+  {text: 'dispatch', size: 1},
+  {text: 'display', size: 1},
+  {text: 'dispose', size: 1},
+  {text: 'disposed', size: 1},
+  {text: 'distinctly', size: 1},
+  {text: 'divide', size: 1},
+  {text: 'divided', size: 1},
+  {text: 'divorce', size: 1},
+  {text: 'doctor', size: 1},
+  {text: 'Doctor', size: 1},
+  {text: 'domicile', size: 1},
+  {text: 'dressed', size: 1},
+  {text: 'drudge', size: 1},
+  {text: 'duly', size: 1},
+  {text: 'dying', size: 1},
+  {text: 'eager', size: 1},
+  {text: 'ease', size: 1},
+  {text: 'eating', size: 1},
+  {text: 'educate', size: 1},
+  {text: 'educated', size: 1},
+  {text: 'education', size: 1},
+  {text: 'emanate', size: 1},
+  {text: 'embrace', size: 1},
+  {text: 'employ', size: 1},
+  {text: 'encrust', size: 1},
+  {text: 'encrusted', size: 1},
+  {text: 'engender', size: 1},
+  {text: 'entertainment', size: 1},
+  {text: 'envelop', size: 1},
+  {text: 'enviable', size: 1},
+  {text: 'establish', size: 1},
+  {text: 'established', size: 1},
+  {text: 'establishment', size: 1},
+  {text: 'evaporate', size: 1},
+  {text: 'evaporated', size: 1},
+  {text: 'event', size: 1},
+  {text: 'every night', size: 1},
+  {text: 'every quarter', size: 1},
+  {text: 'evident', size: 1},
+  {text: 'evidently', size: 1},
+  {text: 'excitement', size: 1},
+  {text: 'exercise', size: 1},
+  {text: 'exertion', size: 1},
+  {text: 'exist', size: 1},
+  {text: 'expand', size: 1},
+  {text: 'expense', size: 1},
+  {text: 'expensive', size: 1},
+  {text: 'experienced', size: 1},
+  {text: 'extant', size: 1},
+  {text: 'faced', size: 1},
+  {text: 'factor', size: 1},
+  {text: 'fail', size: 1},
+  {text: 'faithful', size: 1},
+  {text: 'fall back', size: 1},
+  {text: 'fall out', size: 1},
+  {text: 'farming', size: 1},
+  {text: 'favour', size: 1},
+  {text: 'feebly', size: 1},
+  {text: 'feint', size: 1},
+  {text: 'festive', size: 1},
+  {text: 'fetch', size: 1},
+  {text: 'fictitious', size: 1},
+  {text: 'fictitious name', size: 1},
+  {text: 'find out', size: 1},
+  {text: 'finding', size: 1},
+  {text: 'finger', size: 1},
+  {text: 'finish', size: 1},
+  {text: 'firmly', size: 1},
+  {text: 'fling', size: 1},
+
+];
+
+
+		
+    var arrays = chunkify(words, 8, true);
+	console.log(arrays);
+	
+				d3.wordcloud()
+				.size([300, 300])
+				.selector('#a1_1')
+				.font("Impact")
+				.fill(d3.scale.ordinal().range(["#FFFFFF", "#40E0D0", "#f9f489", "#ff554c"]))
+				.words(arrays[0])
+				.spiral("rectangular")
+				.onwordclick(function(d, i) {
+				   console.log(d.text);
+				})
+				.start();
+				
+				d3.wordcloud()
+				.size([300, 300])
+				.selector('#a1_2')
+				.font("Impact")
+				.fill(d3.scale.ordinal().range(["#FFFFFF", "#40E0D0", "#f9f489", "#ff554c"]))
+				.words(arrays[1])
+				.spiral("rectangular")
+				.onwordclick(function(d, i) {
+				   console.log(d.text);
+				})
+				.start();
+				
+				d3.wordcloud()
+				.size([300, 300])
+				.selector('#a1_3')
+				.font("Impact")
+				.fill(d3.scale.ordinal().range(["#FFFFFF", "#40E0D0", "#f9f489", "#ff554c"]))
+				.words(arrays[2])
+				.spiral("rectangular")
+				.onwordclick(function(d, i) {
+				   console.log(d.text);
+				})
+				.start();
+
+				d3.wordcloud()
+				.size([300, 300])
+				.selector('#a2_1')
+				.font("Impact")
+				.fill(d3.scale.ordinal().range(["#FFFFFF", "#40E0D0", "#f9f489", "#ff554c"]))
+				.words(arrays[3])
+				.spiral("rectangular")
+				.onwordclick(function(d, i) {
+				   console.log(d.text);
+				})
+				.start();
+				
+				
+				d3.wordcloud()
+				.size([300, 300])
+				.selector('#a2_3')
+				.font("Impact")
+				.fill(d3.scale.ordinal().range(["#FFFFFF", "#40E0D0", "#f9f489", "#ff554c"]))
+				.words(arrays[4])
+				.spiral("rectangular")
+				.onwordclick(function(d, i) {
+				   console.log(d.text);
+				})
+				.start();
+				
+				d3.wordcloud()
+				.size([300, 300])
+				.selector('#a3_1')
+				.font("Impact")
+				.fill(d3.scale.ordinal().range(["#FFFFFF", "#40E0D0", "#f9f489", "#ff554c"]))
+				.words(arrays[5])
+				.spiral("rectangular")
+				.onwordclick(function(d, i) {
+				   console.log(d.text);
+				})
+				.start();
+				
+				d3.wordcloud()
+				.size([300, 300])
+				.selector('#a3_2')
+				.font("Impact")
+				.fill(d3.scale.ordinal().range(["#FFFFFF", "#40E0D0", "#f9f489", "#ff554c"]))
+				.words(arrays[6])
+				.spiral("rectangular")
+				.onwordclick(function(d, i) {
+				   console.log(d.text);
+				})
+				.start();
+				
+				d3.wordcloud()
+				.size([300, 300])
+				.selector('#a3_3')
+				.font("Impact")
+				.fill(d3.scale.ordinal().range(["#FFFFFF", "#40E0D0", "#f9f489", "#ff554c"]))
+				.words(arrays[7])
+				.spiral("rectangular")
+				.onwordclick(function(d, i) {
+				   console.log(d.text);
+				})
+				.start();
+      
+		
+	
+		
     </script>
 
 </body>

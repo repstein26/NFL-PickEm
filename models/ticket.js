@@ -3,7 +3,8 @@ var Schema = mongoose.Schema;
 var TicketSchema = new Schema(
   {
     tickets: {type: String, required: true, unique:true},
-    week: {type: String, required: true}
+    week: {type: String, required: true},
+	comment: {type: String, required: true}
   }
 );
 
