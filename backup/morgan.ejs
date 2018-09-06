@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+
+
+
+
+
+<head>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="lib/d3/d3.layout.cloud.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+
+<style>
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+
+.inner {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 200px;
+  height: 200px;
+}
+
+.wordcloud {
+
+}
+</style>
+
+</head>
+
+<body style="text-align:center; position:relative; height: 100vh; width: 100vw">
+
+	<div id="wordclouddiv" class="wordcloud" style="width:100vh;  height: 100vh;"">
+	words:<textarea type="text" id="input">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z</textarea>
+	<button type="button" id="button" onclick="generate()">show</button>
+	
+	
+<div id="innerdiv" style="background-color:white;" class="inner" >aaaaaaaaaaaaaaaaaaaaaa</div>
+
+	</div>
+
+	
+<div style="background-color:black; height=100px; width=100px;" class="wordcloud">
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+</div>
+
+
+
+<script src="lib/d3/wordcloud.js"></script>
+
+</body>
+
+
+</html>
